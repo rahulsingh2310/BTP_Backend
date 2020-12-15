@@ -9,3 +9,10 @@ class GasDetails(models.Model):
     value = models.FloatField()
     gas = models.CharField(max_length=20)
     date = models.DateField()
+
+
+class LiveDetails(models.Model):
+    lat = models.FloatField()
+    lon = models.FloatField()
+    gas = models.CharField(max_length=50)
+    value = models.FloatField()

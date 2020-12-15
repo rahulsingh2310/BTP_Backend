@@ -25,7 +25,7 @@ SECRET_KEY = ')_@lsvi41@%fvi_$tdwclr7^q!y7l3v8rypzb5-gcv(d4t*j$!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "gas",
     "rest_framework",
-    "storages",
     'corsheaders',
 ]
 
@@ -53,6 +52,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
 
 ROOT_URLCONF = 'vaibhavBTP.urls'
 
