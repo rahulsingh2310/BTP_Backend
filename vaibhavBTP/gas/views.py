@@ -37,13 +37,15 @@ class GetValueBasedOnState(generics.ListAPIView):
         res = []
         for gs in gasObj:
             dic = {
-                "gasId": gs.gasId,
-                "state": gs.state,
-                "value": gs.value,
-                "date": gs.date,
-                "gas": gs.gas
+		   "date": gs.date,
+		   "state":gs.state,
+                
+		   "value": gs.value
+                
+               
             }
             res.append(dic)
+	
         if not res:
             return CustomResponse().errorResponse(description="No such detail to display")
         else:
