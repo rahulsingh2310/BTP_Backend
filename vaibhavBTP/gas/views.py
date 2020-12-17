@@ -55,13 +55,16 @@ class getGasByDate(generics.ListAPIView):
         gas = request.GET.get("gas")
 
         gasObj = GasDetails.objects.filter(date=date, gas=gas)
+        dup_set = set()
         res = []
         for gs in gasObj:
-            dic = {
-                "State": gs.state,
-                "Value": gs.value
-            }
-            res.append(dic)
+            if not date in dup_set:
+                dic = {
+                    "State": gs.state,
+                    "Value": gs.value
+                }
+                res.append(dic)
+                dup_set.add(gs.date)
         if not res:
             return CustomResponse().errorResponse(description="No such detail to display")
         else:
