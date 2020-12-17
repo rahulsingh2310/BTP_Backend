@@ -95,9 +95,7 @@ class GetGasInDateRange(generics.ListAPIView):
         else:
             return CustomResponse().successResponse(res, description="Displayed the details")
 
-class GetNearestData(generics.ListAPIView):
-
-    def dist(lat1, long1, lat2, long2):
+def dist(lat1, long1, lat2, long2):
         """
         Calculate the great circle distance between two points
         on the earth (specified in decimal degrees)
@@ -113,6 +111,7 @@ class GetNearestData(generics.ListAPIView):
         km = 6371* c
         return km
 
+class GetNearestData(generics.ListAPIView):
     def get(self,request):
         lat = request.GET.get("lat")
         lon = request.GET.get('lon')
@@ -121,14 +120,17 @@ class GetNearestData(generics.ListAPIView):
         value = 0
         df = pd.DataFrame.from_records(
         LiveDetails.objects.filter(gas=gas).values_list('lat', 'lon', 'gas', 'value') )
+        print(df)
         # sdd = pd.DataFrame.from_records(
         # GasDetails.objects.all().values_list('state', 'value', 'gas', 'date') )
         for i in range(0,len(df)):
-            distance = dist(lat,lon,df[0][i],df[1][i])
+            print(i)
+            distance = dist(float(lat),float(lon),df[0][i],df[1][i])
             if distance < low:
                 low = distance
                 value = df[3][i]
-
         res = {'con':value,'gas':gas,'lat':lat,'lon':lon}
-
-        return CustomResponse.successResponse(res, description="success")
+        if not res:
+            return CustomResponse().errorResponse(description="No such detail to display")
+        else:
+            return CustomResponse().successResponse(res, description="Displayed the details")
